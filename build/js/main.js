@@ -68,6 +68,14 @@
 
 	var _2 = _interopRequireDefault(_);
 
+	var _success = __webpack_require__(222);
+
+	var _success2 = _interopRequireDefault(_success);
+
+	var _failure = __webpack_require__(223);
+
+	var _failure2 = _interopRequireDefault(_failure);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var MarsApp = _react2.default.createClass({
@@ -80,6 +88,8 @@
 	      _react2.default.createElement(_reactRouter.Redirect, { from: '/', to: '/welcome' }),
 	      _react2.default.createElement(_reactRouter.Route, { path: '/welcome', component: _welcomeScreen2.default }),
 	      _react2.default.createElement(_reactRouter.Route, { path: '/mars-test', component: _questions2.default }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/success', component: _success2.default }),
+	      _react2.default.createElement(_reactRouter.Route, { path: '/failure', component: _failure2.default }),
 	      _react2.default.createElement(_reactRouter.Route, { path: '*', component: _2.default })
 	    );
 	  }
@@ -24866,9 +24876,23 @@
 	      'div',
 	      { className: 'test-area' },
 	      _react2.default.createElement(
-	        'button',
-	        { onClick: this.takeTest },
-	        'Take Test'
+	        'div',
+	        { className: 'narrative-box' },
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          'Welcome traveller, you have been selected as a potential future colonist of Mars.'
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          'We hope you like potatoes!'
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.takeTest },
+	          'Click to continue'
+	        )
 	      )
 	    );
 	  }
@@ -24886,19 +24910,27 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _reactRouter = __webpack_require__(159);
+
 	var _timer = __webpack_require__(220);
 
 	var _timer2 = _interopRequireDefault(_timer);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var question = {
-	  1: { question: 'this is a question',
-	    answer: '' },
-	  2: { question: '',
-	    answer: '' },
-	  3: { question: '',
-	    answer: '' }
+	var currentQuestion = {
+	  1: {
+	    question: 'What is the answer to everything?',
+	    answer: '42'
+	  },
+	  2: {
+	    question: 'How many moons does Mars have?',
+	    answer: '2'
+	  },
+	  3: {
+	    question: 'How many centimeters are in a meter?',
+	    answer: '1000'
+	  }
 	};
 
 	//components
@@ -24912,11 +24944,9 @@
 	    return {
 	      start: false,
 	      showQuestions: false,
-	      question: 1,
-	      // questions: [ 'I am question 1', 'I am question 2', 'I am question 3' ],
-	      // answers: [ 'I am answer 1', 'I am answer 2', 'I am answer 3' ],
-	      currentQuestion: 0,
-	      correctAnswers: 0
+	      currentQuestion: 1,
+	      correctAnswers: 1,
+	      value: ''
 	    };
 	  },
 	  hidden: function hidden(notHidden) {
@@ -24929,27 +24959,39 @@
 	  handleClick: function handleClick() {
 	    this.setState({ start: true });
 	  },
-	  // renderQuestions : function(questionToAsk, index) {
-	  //   return <MarsQuestions key = {index}
-	  //               id = {index}
-	  //               questionData = {questionToAsk}/>;
-	  // },
 	  generateQuestions: function generateQuestions() {
 	    return _react2.default.createElement(
 	      'span',
 	      null,
-	      question[this.state.question].question
+	      currentQuestion[this.state.currentQuestion].question
 	    );
-	    // for i =0 question = dispaly(map[i])
-	    // return (
-	    //   this.state.questions.map(function(value, index) {
-	    //     return(<span>data={value},key={index}</span>);
-	    //   })
-	    // )
 	  },
-	  checkAnswer: function checkAnswer() {
-	    console.log('something');
+	  formSubmit: function formSubmit(e) {
+	    e.preventDefault();
+	    this.setState({ currentQuestion: this.state.currentQuestion + 1 });
+	    if (this.refs.userAnswer.value === currentQuestion[this.state.currentQuestion].answer) {
+	      this.setState({ correctAnswers: this.state.correctAnswers + 1 });
+	    };
+
+	    if (this.state.currentQuestion >= 3) {
+	      this.setState({ start: false });
+	      this.testResults();
+	    };
+	    this.refs.userAnswer.value = '';
 	  },
+	  testResults: function testResults() {
+	    if (this.state.correctAnswers === 3) {
+	      _reactRouter.browserHistory.push('/success');
+	    } else {
+	      _reactRouter.browserHistory.push('/failure');
+	    }
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps() {
+	    if (status.timerStatus === 0) {
+	      _reactRouter.browserHistory.push('/failure');
+	    };
+	  },
+
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
@@ -24957,41 +24999,44 @@
 	      _react2.default.createElement(
 	        'div',
 	        { className: "timer " + this.hidden(true) },
-	        _react2.default.createElement(_timer2.default, { startMinutes: 0, startHandler: this.state.start })
+	        _react2.default.createElement(_timer2.default, { startMinutes: 0, startHandler: this.state.start, quizNum: this.state.correctAnswers })
 	      ),
 	      _react2.default.createElement(
-	        'button',
-	        { type: 'button', className: "eval-start " + this.hidden(false), onClick: this.handleClick },
-	        ' Start Exam '
-	      ),
-	      _react2.default.createElement(
-	        'form',
-	        { className: "questionaire " + this.hidden(true) },
+	        'div',
+	        { className: "narrative-box " + this.hidden(false) },
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          this.generateQuestions()
+	          'To secure your seat on the colony ship, you only have to answer three questions. If you\'re ready, click the button below to start'
 	        ),
-	        _react2.default.createElement('input', { type: 'text', placeholder: 'enter here' }),
 	        _react2.default.createElement(
 	          'button',
-	          { type: 'button', onClick: this.checkAnswer },
-	          'Submit Answer'
+	          { type: 'button', className: "eval-start " + this.hidden(false), onClick: this.handleClick },
+	          ' Start Exam '
+	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: "narrative-box " + this.hidden(true) },
+	        _react2.default.createElement(
+	          'form',
+	          { onSubmit: this.formSubmit },
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            this.generateQuestions()
+	          ),
+	          _react2.default.createElement('input', { className: 'input-answer', ref: 'userAnswer', type: 'text', placeholder: 'Enter your answer' }),
+	          _react2.default.createElement(
+	            'button',
+	            { type: 'button', onClick: this.formSubmit },
+	            'Submit Answer'
+	          )
 	        )
 	      )
 	    );
 	  }
 	});
-
-	// var MarsQuestions = React.createClass({
-	//     getInitialState: function() {
-	//       return {};
-	//     },
-	//     render: function() {
-	//       return (
-	//       )
-	//     }
-	// })
 
 	module.exports = Questions;
 
@@ -25004,6 +25049,8 @@
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(159);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25029,24 +25076,39 @@
 	  minutesLeft: function minutesLeft() {
 	    return Math.floor(this.state.secondsElapsed / 60);
 	  },
-	  stopTimer: function stopTimer() {
-	    clearInterval(this.interval);
-	  },
 	  tick: function tick() {
 	    this.setState({ secondsElapsed: this.state.secondsElapsed - 1 });
 	    if (this.state.secondsElapsed === 0) {
-	      alert('YOU FAIL!');
-	      this.stopTimer();
+	      _reactRouter.browserHistory.push('/failure');
 	    }
 	  },
-	  start: function start() {
-	    // this.setState(this.getInitialState());
-	    this.interval = setInterval(this.tick, 100);
+	  startTimer: function startTimer() {
+	    this.interval = setInterval(this.tick, 500);
+	  },
+	  stopTimer: function stopTimer() {
+	    clearInterval(this.interval);
 	  },
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	    if (nextProps.startHandler === true) {
-	      this.start();
-	    }
+	      this.startTimer();
+	    } else {
+	      this.stopTimer();
+	    };
+
+	    // if(nextProps.startHandler === true){
+	    //   this.startTimer();
+	    // } else if (nextProps.quizNum >= 3) {
+	    //   alert('yay');
+	    //   this.stopTimer();
+	    // } else {
+	    //   this.stopTimer();
+	    // };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    setTimeout(this.start, 0);
+	  },
+	  componentWillUnmount: function componentWillUnmount() {
+	    clearInterval(this.interval);
 	  },
 	  render: function render() {
 	    return _react2.default.createElement(
@@ -25062,6 +25124,16 @@
 	    );
 	  }
 	});
+
+	// var InitTimer = React.createClass({
+	//   render: function() {
+	//   return (
+	//     <div className = {"timer " + this.hidden(true)}>
+	//     <Timer startMinutes = {70} startHandler = {this.state.start} />
+	//   </div>
+	// )
+	// }
+	// })
 
 	module.exports = Timer;
 
@@ -25090,17 +25162,21 @@
 	      'div',
 	      { className: 'test-area' },
 	      _react2.default.createElement(
-	        'p',
-	        null,
-	        'Whoops! The Martians have misplaced this page in the move.'
-	      ),
-	      _react2.default.createElement(
-	        'p',
-	        null,
+	        'div',
+	        { className: 'eval-start' },
 	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.abduction },
-	          'Back To Welcome Screen'
+	          'p',
+	          null,
+	          'Whoops! The Martians have misplaced this page in the move.'
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: this.abduction },
+	            'Back To Welcome Screen'
+	          )
 	        )
 	      )
 	    );
@@ -25108,6 +25184,97 @@
 	});
 
 	module.exports = NotFound;
+
+/***/ },
+/* 222 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(159);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Success = _react2.default.createClass({
+	  displayName: 'Success',
+
+	  takeTest: function takeTest() {
+	    _reactRouter.browserHistory.push('/welcome');
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'test-area' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'narrative-box' },
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          'Success! You eagerly antipate all the potatoes you will be eating!'
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.takeTest },
+	          'Test Again'
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Success;
+
+/***/ },
+/* 223 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(159);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Failure = _react2.default.createClass({
+	  displayName: 'Failure',
+
+	  takeTest: function takeTest() {
+	    _reactRouter.browserHistory.push('/welcome');
+	  },
+	  componentDidMount: function componentDidMount() {
+	    return "failure";
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: "test-area " + this.componentDidMount() },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'narrative-box' },
+	        _react2.default.createElement(
+	          'h2',
+	          null,
+	          'Failure! You watch forlornly as the colonists lift-off'
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.takeTest },
+	          'Test Again'
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Failure;
 
 /***/ }
 /******/ ]);

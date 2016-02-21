@@ -8,7 +8,13 @@ var WelcomeScreen = React.createClass({
   render: function() {
     return (
       <div className="test-area">
-        <button onClick = {this.takeTest}>Take Test</button>
+        {/*<div className="eval-start">*/}
+          <div className="narrative-box">
+            <p>Welcome traveller, you have been selected as a potential future colonist of Mars.</p>
+            <p>We hope you like potatoes!</p>
+        <button onClick = {this.takeTest}>Click to continue</button>
+        </div>
+      {/*</div>*/}
       </div>
     )
   }

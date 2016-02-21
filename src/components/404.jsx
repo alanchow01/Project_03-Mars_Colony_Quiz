@@ -8,9 +8,11 @@ var NotFound = React.createClass({
   render: function() {
     return (
       <div className="test-area">
+        <div className="eval-start">
         <p>Whoops! The Martians have misplaced this page in the move.</p>
         <p><button onClick = {this.abduction}>Back To Welcome Screen</button></p>
       </div>
+    </div>
     )
   }
 })
