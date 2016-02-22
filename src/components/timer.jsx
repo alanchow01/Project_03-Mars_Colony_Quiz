@@ -24,11 +24,14 @@ var Timer = React.createClass({
   tick: function() {
     this.setState({secondsElapsed: this.state.secondsElapsed - 1});
     if (this.state.secondsElapsed === 0) {
+      this.componentWillUnmount
       browserHistory.push('/failure');
-    }
+    };
   },
   startTimer: function() {
-    this.interval = setInterval(this.tick, 500);
+    if (!this.interval) {
+      this.interval = setInterval(this.tick, 500);
+    }
   },
   stopTimer: function() {
     clearInterval(this.interval);
@@ -39,16 +42,6 @@ var Timer = React.createClass({
     } else {
       this.stopTimer();
     };
-
-    // if(nextProps.startHandler === true){
-    //   this.startTimer();
-    // } else if (nextProps.quizNum >= 3) {
-    //   alert('yay');
-    //   this.stopTimer();
-    // } else {
-    //   this.stopTimer();
-    // };
-
   },
   componentDidMount: function(){
     setTimeout(this.start, 0);

@@ -15,7 +15,11 @@ var currentQuestion = {
   },
   3: {
     question: 'How many centimeters are in a meter?',
-    answer: '1000'
+    answer: '100'
+  },
+  4: {
+    question: '',
+    answer: ''
   }
 };
 
@@ -26,7 +30,7 @@ var Questions = React.createClass({
       start: false,
       showQuestions: false,
       currentQuestion: 1,
-      correctAnswers: 1,
+      correctAnswers: 0,
       value: ''
     };
   },
@@ -45,16 +49,18 @@ var Questions = React.createClass({
   },
   formSubmit: function(e) {
     e.preventDefault();
+    this.setState({value: this.refs.userAnswer.value});
     this.setState({currentQuestion: this.state.currentQuestion + 1});
     if (this.refs.userAnswer.value === currentQuestion[this.state.currentQuestion].answer) {
       this.setState({correctAnswers: this.state.correctAnswers + 1})
     };
-
-    if (this.state.currentQuestion >= 3){
-      this.setState({start: false})
-      this.testResults();
-    };
     this.refs.userAnswer.value = '';
+  },
+  componentDidUpdate: function() {
+    if (this.state.currentQuestion > 3){
+        this.setState({start: false});
+        this.testResults();
+    };
   },
   testResults: function () {
     if (this.state.correctAnswers === 3 ) {
@@ -76,10 +82,10 @@ var Questions = React.createClass({
           <Timer startMinutes={0} startHandler={this.state.start}  quizNum={this.state.correctAnswers}/>
         </div>
         <div className={"narrative-box " + this.hidden(false)}>
-        <p>To secure your seat on the colony ship, you only have to answer three questions. If you're ready, click the button below to start</p>
-        <button type="button" className={"eval-start " + this.hidden(false)} onClick={this.handleClick}> Start Exam </button>
+          <p>To secure your seat on the colony ship, you only have to answer three questions. If you're ready, click the button below to start</p>
+          <button type="button" className={"eval-start " + this.hidden(false)} onClick={this.handleClick}> Start Exam </button>
         </div>
-      <div className={"narrative-box " + this.hidden(true)}>
+        <div className={"narrative-box " + this.hidden(true)}>
           <form onSubmit={this.formSubmit}>
             <p>{this.generateQuestions()}</p>
             <input className="input-answer" ref="userAnswer" type="text" placeholder="Enter your answer"/>

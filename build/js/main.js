@@ -24929,7 +24929,11 @@
 	  },
 	  3: {
 	    question: 'How many centimeters are in a meter?',
-	    answer: '1000'
+	    answer: '100'
+	  },
+	  4: {
+	    question: '',
+	    answer: ''
 	  }
 	};
 
@@ -24945,7 +24949,7 @@
 	      start: false,
 	      showQuestions: false,
 	      currentQuestion: 1,
-	      correctAnswers: 1,
+	      correctAnswers: 0,
 	      value: ''
 	    };
 	  },
@@ -24968,16 +24972,18 @@
 	  },
 	  formSubmit: function formSubmit(e) {
 	    e.preventDefault();
+	    this.setState({ value: this.refs.userAnswer.value });
 	    this.setState({ currentQuestion: this.state.currentQuestion + 1 });
 	    if (this.refs.userAnswer.value === currentQuestion[this.state.currentQuestion].answer) {
 	      this.setState({ correctAnswers: this.state.correctAnswers + 1 });
 	    };
-
-	    if (this.state.currentQuestion >= 3) {
+	    this.refs.userAnswer.value = '';
+	  },
+	  componentDidUpdate: function componentDidUpdate() {
+	    if (this.state.currentQuestion > 3) {
 	      this.setState({ start: false });
 	      this.testResults();
 	    };
-	    this.refs.userAnswer.value = '';
 	  },
 	  testResults: function testResults() {
 	    if (this.state.correctAnswers === 3) {
@@ -25079,11 +25085,14 @@
 	  tick: function tick() {
 	    this.setState({ secondsElapsed: this.state.secondsElapsed - 1 });
 	    if (this.state.secondsElapsed === 0) {
+	      this.componentWillUnmount;
 	      _reactRouter.browserHistory.push('/failure');
-	    }
+	    };
 	  },
 	  startTimer: function startTimer() {
-	    this.interval = setInterval(this.tick, 500);
+	    if (!this.interval) {
+	      this.interval = setInterval(this.tick, 500);
+	    }
 	  },
 	  stopTimer: function stopTimer() {
 	    clearInterval(this.interval);
@@ -25094,15 +25103,6 @@
 	    } else {
 	      this.stopTimer();
 	    };
-
-	    // if(nextProps.startHandler === true){
-	    //   this.startTimer();
-	    // } else if (nextProps.quizNum >= 3) {
-	    //   alert('yay');
-	    //   this.stopTimer();
-	    // } else {
-	    //   this.stopTimer();
-	    // };
 	  },
 	  componentDidMount: function componentDidMount() {
 	    setTimeout(this.start, 0);
@@ -25202,8 +25202,10 @@
 	var Success = _react2.default.createClass({
 	  displayName: 'Success',
 
-	  takeTest: function takeTest() {
-	    _reactRouter.browserHistory.push('/welcome');
+	  componentDidMount: function componentDidMount() {
+	    setTimeout(function () {
+	      _reactRouter.browserHistory.push('/welcome');
+	    }, 5000);
 	  },
 	  render: function render() {
 	    return _react2.default.createElement(
@@ -25215,12 +25217,12 @@
 	        _react2.default.createElement(
 	          'h2',
 	          null,
-	          'Success! You eagerly antipate all the potatoes you will be eating!'
+	          'Success!'
 	        ),
 	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.takeTest },
-	          'Test Again'
+	          'p',
+	          null,
+	          'You eagerly antipate all the potatoes you will be eating!'
 	        )
 	      )
 	    );
@@ -25246,28 +25248,27 @@
 	var Failure = _react2.default.createClass({
 	  displayName: 'Failure',
 
-	  takeTest: function takeTest() {
-	    _reactRouter.browserHistory.push('/welcome');
-	  },
 	  componentDidMount: function componentDidMount() {
-	    return "failure";
+	    setTimeout(function () {
+	      _reactRouter.browserHistory.push('/welcome');
+	    }, 5000);
 	  },
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
-	      { className: "test-area " + this.componentDidMount() },
+	      { className: 'test-area' },
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'narrative-box' },
 	        _react2.default.createElement(
 	          'h2',
 	          null,
-	          'Failure! You watch forlornly as the colonists lift-off'
+	          'Failure!'
 	        ),
 	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.takeTest },
-	          'Test Again'
+	          'p',
+	          null,
+	          'You watch forlornly as the colonists lift-off'
 	        )
 	      )
 	    );
