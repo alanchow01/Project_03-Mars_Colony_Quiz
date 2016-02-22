@@ -6,7 +6,7 @@ import Timer from './timer.jsx';
 
 var currentQuestion = {
   1: {
-    question: 'What is the answer to everything?',
+    question: 'What is the answer to life the universe and everything?',
     answer: '42'
   },
   2: {
@@ -14,7 +14,7 @@ var currentQuestion = {
     answer: '2'
   },
   3: {
-    question: 'How many centimeters are in a meter?',
+    question: 'How many centimetres are in a metre?',
     answer: '100'
   },
   4: {
