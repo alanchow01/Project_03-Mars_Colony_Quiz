@@ -56,12 +56,6 @@ var Questions = React.createClass({
     };
     this.refs.userAnswer.value = '';
   },
-  componentDidUpdate: function() {
-    if (this.state.currentQuestion > 3){
-        this.setState({start: false});
-        this.testResults();
-    };
-  },
   testResults: function () {
     if (this.state.correctAnswers === 3 ) {
       browserHistory.push('/success');
@@ -69,21 +63,27 @@ var Questions = React.createClass({
       browserHistory.push('/failure');
     }
   },
+  componentDidUpdate: function() {
+    if (this.state.currentQuestion > 3){
+      this.setState({start: false});
+      this.testResults();
+    };
+  },
   componentWillReceiveProps: function(){
     if(status.timerStatus === 0){
       browserHistory.push('/failure');
     };
   },
-
   render: function() {
     return (
-      <div className="test-area">
+      <div className="test-area training">
         <div className = {"timer " + this.hidden(true)}>
           <Timer startMinutes={0} startHandler={this.state.start}  quizNum={this.state.correctAnswers}/>
         </div>
         <div className={"narrative-box " + this.hidden(false)}>
-          <p>To secure your seat on the colony ship, you only have to answer three questions. If you're ready, click the button below to start</p>
-          <button type="button" className={"eval-start " + this.hidden(false)} onClick={this.handleClick}> Start Exam </button>
+          <p>To secure your seat on the colony ship, you must correctly answer three questions.</p>
+          <p> If you're ready, click the button below to start</p>
+          <button type="button" className={"eval-start " + this.hidden(false)} onClick={this.handleClick}> Begin Evaluation </button>
         </div>
         <div className={"narrative-box " + this.hidden(true)}>
           <form onSubmit={this.formSubmit}>

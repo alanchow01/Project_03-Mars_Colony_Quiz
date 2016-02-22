@@ -24874,14 +24874,14 @@
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'test-area' },
+	      { className: 'test-area training' },
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'narrative-box' },
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          'Welcome traveller, you have been selected as a potential future colonist of Mars.'
+	          'Welcome Traveller, you have been selected as a potential future Martian colonist.'
 	        ),
 	        _react2.default.createElement(
 	          'p',
@@ -24979,12 +24979,6 @@
 	    };
 	    this.refs.userAnswer.value = '';
 	  },
-	  componentDidUpdate: function componentDidUpdate() {
-	    if (this.state.currentQuestion > 3) {
-	      this.setState({ start: false });
-	      this.testResults();
-	    };
-	  },
 	  testResults: function testResults() {
 	    if (this.state.correctAnswers === 3) {
 	      _reactRouter.browserHistory.push('/success');
@@ -24992,16 +24986,21 @@
 	      _reactRouter.browserHistory.push('/failure');
 	    }
 	  },
+	  componentDidUpdate: function componentDidUpdate() {
+	    if (this.state.currentQuestion > 3) {
+	      this.setState({ start: false });
+	      this.testResults();
+	    };
+	  },
 	  componentWillReceiveProps: function componentWillReceiveProps() {
 	    if (status.timerStatus === 0) {
 	      _reactRouter.browserHistory.push('/failure');
 	    };
 	  },
-
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'test-area' },
+	      { className: 'test-area training' },
 	      _react2.default.createElement(
 	        'div',
 	        { className: "timer " + this.hidden(true) },
@@ -25013,12 +25012,17 @@
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          'To secure your seat on the colony ship, you only have to answer three questions. If you\'re ready, click the button below to start'
+	          'To secure your seat on the colony ship, you must correctly answer three questions.'
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          ' If you\'re ready, click the button below to start'
 	        ),
 	        _react2.default.createElement(
 	          'button',
 	          { type: 'button', className: "eval-start " + this.hidden(false), onClick: this.handleClick },
-	          ' Start Exam '
+	          ' Begin Evaluation '
 	        )
 	      ),
 	      _react2.default.createElement(
@@ -25076,11 +25080,11 @@
 	      return 60;
 	    }
 	  },
-	  secondsLeft: function secondsLeft() {
-	    return Math.floor(this.state.secondsElapsed % 60);
-	  },
 	  minutesLeft: function minutesLeft() {
 	    return Math.floor(this.state.secondsElapsed / 60);
+	  },
+	  secondsLeft: function secondsLeft() {
+	    return Math.floor(this.state.secondsElapsed % 60);
 	  },
 	  tick: function tick() {
 	    this.setState({ secondsElapsed: this.state.secondsElapsed - 1 });
@@ -25091,7 +25095,7 @@
 	  },
 	  startTimer: function startTimer() {
 	    if (!this.interval) {
-	      this.interval = setInterval(this.tick, 500);
+	      this.interval = setInterval(this.tick, 1000);
 	    }
 	  },
 	  stopTimer: function stopTimer() {
@@ -25125,16 +25129,6 @@
 	  }
 	});
 
-	// var InitTimer = React.createClass({
-	//   render: function() {
-	//   return (
-	//     <div className = {"timer " + this.hidden(true)}>
-	//     <Timer startMinutes = {70} startHandler = {this.state.start} />
-	//   </div>
-	// )
-	// }
-	// })
-
 	module.exports = Timer;
 
 /***/ },
@@ -25154,7 +25148,7 @@
 	var NotFound = _react2.default.createClass({
 	  displayName: 'NotFound',
 
-	  abduction: function abduction() {
+	  notFound: function notFound() {
 	    _reactRouter.browserHistory.push('/welcome');
 	  },
 	  render: function render() {
@@ -25163,7 +25157,7 @@
 	      { className: 'test-area' },
 	      _react2.default.createElement(
 	        'div',
-	        { className: 'eval-start' },
+	        { className: 'narrative-box' },
 	        _react2.default.createElement(
 	          'p',
 	          null,
@@ -25174,7 +25168,7 @@
 	          null,
 	          _react2.default.createElement(
 	            'button',
-	            { onClick: this.abduction },
+	            { onClick: this.notFound },
 	            'Back To Welcome Screen'
 	          )
 	        )
@@ -25205,25 +25199,39 @@
 	  componentDidMount: function componentDidMount() {
 	    setTimeout(function () {
 	      _reactRouter.browserHistory.push('/welcome');
-	    }, 5000);
+	    }, 10000);
 	  },
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'test-area' },
+	      { className: 'test-area star-field' },
 	      _react2.default.createElement(
 	        'div',
-	        { className: 'narrative-box' },
+	        { className: 'launch' },
+	        _react2.default.createElement('i', { className: 'fa fa-space-shuttle' })
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'results-msg' },
 	        _react2.default.createElement(
 	          'h2',
 	          null,
-	          'Success!'
+	          'Accepted!'
 	        ),
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          'You eagerly antipate all the potatoes you will be eating!'
+	          'You eagerly anticipate all the potatoes you will be eating!'
 	        )
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        { id: 'success' },
+	        _react2.default.createElement('div', { className: 'stars' }),
+	        _react2.default.createElement('div', { className: 'stars' }),
+	        _react2.default.createElement('div', { className: 'stars' }),
+	        _react2.default.createElement('div', { className: 'stars' }),
+	        _react2.default.createElement('div', { className: 'stars' })
 	      )
 	    );
 	  }
@@ -25245,37 +25253,37 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Failure = _react2.default.createClass({
-	  displayName: 'Failure',
+	var Success = _react2.default.createClass({
+	  displayName: 'Success',
 
 	  componentDidMount: function componentDidMount() {
 	    setTimeout(function () {
 	      _reactRouter.browserHistory.push('/welcome');
-	    }, 5000);
+	    }, 10000);
 	  },
 	  render: function render() {
 	    return _react2.default.createElement(
 	      'div',
-	      { className: 'test-area' },
+	      { className: 'test-area failure' },
 	      _react2.default.createElement(
 	        'div',
-	        { className: 'narrative-box' },
+	        { className: 'results-msg' },
 	        _react2.default.createElement(
 	          'h2',
-	          null,
-	          'Failure!'
+	          { className: 'rejected' },
+	          'Rejected!'
 	        ),
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          'You watch forlornly as the colonists lift-off'
+	          'You watch forlornly at a distance as the colony ship takes off.'
 	        )
 	      )
 	    );
 	  }
 	});
 
-	module.exports = Failure;
+	module.exports = Success;
 
 /***/ }
 /******/ ]);

@@ -15,11 +15,11 @@ var Timer = React.createClass({
       return 60;
     }
   },
-  secondsLeft: function() {
-    return Math.floor(this.state.secondsElapsed % 60);
-  },
   minutesLeft: function() {
     return Math.floor(this.state.secondsElapsed / 60);
+  },
+  secondsLeft: function() {
+    return Math.floor(this.state.secondsElapsed % 60);
   },
   tick: function() {
     this.setState({secondsElapsed: this.state.secondsElapsed - 1});
@@ -30,7 +30,7 @@ var Timer = React.createClass({
   },
   startTimer: function() {
     if (!this.interval) {
-      this.interval = setInterval(this.tick, 500);
+      this.interval = setInterval(this.tick, 1000);
     }
   },
   stopTimer: function() {
@@ -57,15 +57,5 @@ var Timer = React.createClass({
     )
   }
 });
-
-// var InitTimer = React.createClass({
-//   render: function() {
-//   return (
-//     <div className = {"timer " + this.hidden(true)}>
-//     <Timer startMinutes = {70} startHandler = {this.state.start} />
-//   </div>
-// )
-// }
-// })
 
 module.exports = Timer;
