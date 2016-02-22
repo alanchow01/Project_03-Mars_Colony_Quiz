@@ -25199,7 +25199,7 @@
 	  componentDidMount: function componentDidMount() {
 	    setTimeout(function () {
 	      _reactRouter.browserHistory.push('/welcome');
-	    }, 10000);
+	    }, 240000);
 	  },
 	  render: function render() {
 	    return _react2.default.createElement(

@@ -126,10 +126,9 @@ h2 {
   bottom: 2000px;
   color: #fff;
   font-size: 20rem;
-  left: 250px;
   position: absolute;
-  -webkit-transform: translate(50%, 50%) rotate(-90deg);
-          transform: translate(50%, 50%) rotate(-90deg);
+  -webkit-transform: translate(30%, 50%) rotate(-90deg);
+          transform: translate(30%, 50%) rotate(-90deg);
   z-index: 99; }
 
 .fa-space-shuttle {
