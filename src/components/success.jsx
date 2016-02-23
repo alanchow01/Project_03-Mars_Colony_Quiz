@@ -4,7 +4,7 @@ import {browserHistory} from 'react-router';
 var Success = React.createClass({
     componentDidMount: function() {
     setTimeout(function() {
-      browserHistory.push('/welcome')}, 240000);
+      browserHistory.push('/welcome')}, 10000);
     },
     render: function() {
       return (
