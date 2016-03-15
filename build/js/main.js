@@ -25030,7 +25030,7 @@
 	        { className: "narrative-box " + this.hidden(true) },
 	        _react2.default.createElement(
 	          'form',
-	          { onSubmit: this.formSubmit },
+	          null,
 	          _react2.default.createElement(
 	            'p',
 	            null,
@@ -25199,7 +25199,7 @@
 	  componentDidMount: function componentDidMount() {
 	    setTimeout(function () {
 	      _reactRouter.browserHistory.push('/welcome');
-	    }, 240000);
+	    }, 10000);
 	  },
 	  render: function render() {
 	    return _react2.default.createElement(

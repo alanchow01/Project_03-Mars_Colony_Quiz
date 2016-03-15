@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, Browserhistory, Redirect } from 'react-router';
+import {Router, Route, Redirect } from 'react-router';
 
 var MarsApp = React.createClass({
   getInitialState: function() {

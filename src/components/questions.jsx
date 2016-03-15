@@ -86,7 +86,7 @@ var Questions = React.createClass({
           <button type="button" className={"eval-start " + this.hidden(false)} onClick={this.handleClick}> Begin Evaluation </button>
         </div>
         <div className={"narrative-box " + this.hidden(true)}>
-          <form onSubmit={this.formSubmit}>
+          <form>
             <p>{this.generateQuestions()}</p>
             <input className="input-answer" ref="userAnswer" type="text" placeholder="Enter your answer"/>
             <button type="button" onClick = {this.formSubmit}>Submit Answer</button>
